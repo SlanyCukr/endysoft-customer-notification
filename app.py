@@ -13,8 +13,8 @@ def change_notification():
     return "ok"
 
 
-@app.route("/get_notification/<id>", methods=['GET'])
-def get_notification(id):
+@app.route("/get_notification/<notification_id>", methods=['GET'])
+def get_notification(notification_id):
     return "ok"
 
 
@@ -35,4 +35,3 @@ def send_notification():
 
 if __name__ == '__main__':
     app.run(debug=True, port=5050)
-    
