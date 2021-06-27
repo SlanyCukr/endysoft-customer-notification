@@ -68,4 +68,4 @@ def remove_notification(notification_id: int):
     cur = conn.cursor()
     cur.execute("DELETE FROM notification WHERE notification_id = %s", (notification_id,))
     cur.close()
-    conn.commmit()
+    conn.commit()
