@@ -69,17 +69,20 @@ def delete_notification():
 
 @app.route("/send_notification", methods=['GET'])
 def send_notification():
-    notifications = get_current_notifications(datetime.datetime.today())
-    notifications = database_results_into_list(notifications)
+    try:
+        notifications = get_current_notifications(datetime.datetime.today())
+        notifications = database_results_into_list(notifications)
 
-    if NOTIFICATION_TYPE == 1:
-        for notification in notifications:
-            send_email(notification['title'], notification['description'])
-    elif NOTIFICATION_TYPE == 2:
-        for notification in notifications:
-            send_message(notification['title'], notification['description'])
-    return get_error_message("Couldn't send notifications.")
-    return get_ok_message("Successfully sent notifications.")
+        if NOTIFICATION_TYPE == 1:
+            for notification in notifications:
+                send_email(notification['title'], notification['description'])
+        elif NOTIFICATION_TYPE == 2:
+            for notification in notifications:
+                send_message(notification['title'], notification['description'])
+    except:
+        return get_error_message("Couldn't send notifications.")
+    else:
+        return get_ok_message("Successfully sent notifications.")
 
 
 if __name__ == '__main__':

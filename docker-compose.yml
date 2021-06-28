@@ -19,8 +19,9 @@ services:
       - db
     command: sh -c "/wait && python3 database/create.py && python3 -m app"
     environment:
-        - NOTIFICATION_TYPE=1
+        - NOTIFICATION_TYPE=2
         - EMAIL=marek.hovadik@seznam.cz
+        - SLACK_API_TOKEN=xoxb-2229144629089-2216576468338-2Ue5AdFpX9wzakuVb51PLasD
         - WAIT_HOSTS=postgres:5432
         - WAIT_HOSTS_TIMEOUT=300
         - WAIT_SLEEP_INTERVAL=30
