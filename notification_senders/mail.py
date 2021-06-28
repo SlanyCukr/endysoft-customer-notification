@@ -14,7 +14,9 @@ def send_email(subject: str, body: str):
 
     with smtplib.SMTP_SSL("smtp.seznam.cz", port, context=context) as server:
         server.login(sender_email, password)
-        text = "Subject: " + subject
+        text = "From: " + sender_email + "\n"
+        text += "Subject: " + subject
         text += "\n\n"
         text += body
-        server.sendmail(sender_email, EMAIL , text)
+
+        server.sendmail(to_addrs=EMAIL, from_addr=sender_email, msg=text)

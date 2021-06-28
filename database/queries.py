@@ -69,3 +69,15 @@ def remove_notification(notification_id: int):
     cur.execute("DELETE FROM notification WHERE notification_id = %s", (notification_id,))
     cur.close()
     conn.commit()
+
+
+def get_current_notifications(cur_time: datetime):
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM notification WHERE time_before <= %s", (cur_time,))
+    results = cur.fetchall()
+
+    cur.execute("DELETE FROM notification WHERE time_before <= %s", (cur_time,))
+    cur.close()
+    conn.commit()
+
+    return results

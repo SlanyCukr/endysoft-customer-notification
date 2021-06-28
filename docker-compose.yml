@@ -19,6 +19,8 @@ services:
       - db
     command: sh -c "/wait && python3 database/create.py && python3 -m app"
     environment:
+        - NOTIFICATION_TYPE=1
+        - EMAIL=marek.hovadik@seznam.cz
         - WAIT_HOSTS=postgres:5432
         - WAIT_HOSTS_TIMEOUT=300
         - WAIT_SLEEP_INTERVAL=30

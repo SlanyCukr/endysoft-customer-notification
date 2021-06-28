@@ -1,9 +1,14 @@
 from flask import Flask, request
+import os
 
-from database.queries import create_notification, update_notification, select_notification, select_notifications, remove_notification
+from database.queries import create_notification, update_notification, select_notification, select_notifications, remove_notification, get_current_notifications
 from utils import *
+from notification_senders.mail import send_email
+from notification_senders.slack import send_message
 
 app = Flask(__name__)
+
+NOTIFICATION_TYPE = int(os.environ['NOTIFICATION_TYPE'])
 
 
 @app.route("/new_notification", methods=['POST'])
@@ -64,7 +69,17 @@ def delete_notification():
 
 @app.route("/send_notification", methods=['GET'])
 def send_notification():
-    return "ok"
+    notifications = get_current_notifications(datetime.datetime.today())
+    notifications = database_results_into_list(notifications)
+
+    if NOTIFICATION_TYPE == 1:
+        for notification in notifications:
+            send_email(notification['title'], notification['description'])
+    elif NOTIFICATION_TYPE == 2:
+        for notification in notifications:
+            send_message(notification['title'], notification['description'])
+    return get_error_message("Couldn't send notifications.")
+    return get_ok_message("Successfully sent notifications.")
 
 
 if __name__ == '__main__':
