@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres
+    hostname: postgres
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=endysoft123
+    ports:
+    - "5432:5432"
+  web:
+    build: .
+    container_name: endysoft-customer-notification
+    ports:
+      - "5050:5050"
+    depends_on:
+      - db
+    command: sh -c "/wait && python3 database/create.py && python3 -m app"
+    environment:
+        - WAIT_HOSTS=postgres:5432
+        - WAIT_HOSTS_TIMEOUT=300
+        - WAIT_SLEEP_INTERVAL=30
+        - WAIT_HOST_CONNECT_TIMEOUT=30

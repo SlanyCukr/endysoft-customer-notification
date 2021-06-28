@@ -2,7 +2,7 @@ import psycopg2
 from datetime import datetime
 
 conn = psycopg2.connect(
-    host="localhost",
+    host="postgres",
     database="notifications",
     user="postgres",
     password="endysoft123")
